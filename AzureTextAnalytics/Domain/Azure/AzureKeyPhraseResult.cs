@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class KeyPhraseResult
+    public class AzureKeyPhraseResult
     {
         public string Id { get; set; }
 

@@ -4,7 +4,7 @@
 
     public class KeyPhrasesBatchResult
     {
-        public IEnumerable<KeyPhraseResult> KeyPhrases { get; set; }
+        public IEnumerable<AzureKeyPhraseResult> KeyPhrases { get; set; }
 
         public IEnumerable<ErrorRecord> Errors { get; set; }
     }

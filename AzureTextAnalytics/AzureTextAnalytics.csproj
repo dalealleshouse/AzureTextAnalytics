@@ -49,7 +49,7 @@
     <Compile Include="Domain\ErrorRecord.cs" />
     <Compile Include="Domain\ISettings.cs" />
     <Compile Include="Domain\ITextAnalyticsService.cs" />
-    <Compile Include="Domain\Azure\KeyPhraseResult.cs" />
+    <Compile Include="Domain\Azure\AzureKeyPhraseResult.cs" />
     <Compile Include="Domain\Azure\KeyPhrasesBatchResult.cs" />
     <Compile Include="Domain\Azure\SentimentBatchResult.cs" />
     <Compile Include="Domain\Azure\AzureSentimentResult.cs" />

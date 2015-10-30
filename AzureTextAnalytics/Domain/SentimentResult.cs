@@ -3,7 +3,7 @@ namespace AzureTextAnalytics.Domain
     using System;
     using System.Net;
 
-    public class SentimentResult
+    public struct SentimentResult
     {
         private SentimentResult(HttpStatusCode code, string error, decimal result)
         {
