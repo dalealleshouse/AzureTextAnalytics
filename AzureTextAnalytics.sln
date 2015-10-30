@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureTextAnalytics", "Azure
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureTextAnalytics.Tests", "AzureTextAnalytics.Tests\AzureTextAnalytics.Tests.csproj", "{F95A5BC3-9D43-4799-83FB-BFFE07F2B4E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureTextAnalytics.IntegrationTests", "AzureTextAnalytics.IntegrationTests\AzureTextAnalytics.IntegrationTests.csproj", "{D6395CE5-BC2B-4292-AE5D-BB67431F1385}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{F95A5BC3-9D43-4799-83FB-BFFE07F2B4E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F95A5BC3-9D43-4799-83FB-BFFE07F2B4E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F95A5BC3-9D43-4799-83FB-BFFE07F2B4E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6395CE5-BC2B-4292-AE5D-BB67431F1385}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6395CE5-BC2B-4292-AE5D-BB67431F1385}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6395CE5-BC2B-4292-AE5D-BB67431F1385}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6395CE5-BC2B-4292-AE5D-BB67431F1385}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

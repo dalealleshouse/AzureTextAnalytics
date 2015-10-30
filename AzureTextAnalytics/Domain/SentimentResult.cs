@@ -26,17 +26,24 @@ namespace AzureTextAnalytics.Domain
             return StatusCode == sr.StatusCode && Result == sr.Result && Error == sr.Error;
         }
 
-        public override int GetHashCode() => StatusCode.GetHashCode() ^ Result.GetHashCode() ^ Error.GetHashCode();
+        public override int GetHashCode() => StatusCode.GetHashCode() ^ Result.GetHashCode() ^ Error?.GetHashCode() ?? 0;
 
         public bool Success => this.StatusCode == HttpStatusCode.OK;
 
-        public static SentimentResult Build(decimal result) => new SentimentResult(HttpStatusCode.OK, null, result);
+        public static SentimentResult Build(decimal result)
+        {
+            if (result < 0 || result > 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(result), Constants.ResultOutOfRangeError);
+            }
+            return new SentimentResult(HttpStatusCode.OK, null, result);
+        }
 
         public static SentimentResult Build(HttpStatusCode code, string error)
         {
             if (code == HttpStatusCode.OK)
             {
-                throw new InvalidOperationException("Cannot construct a SentimentResult with an error and a status code of HttpStatusCode.OK");
+                throw new InvalidOperationException(Constants.ErrorWithOkResultErrorText);
             }
 
             return new SentimentResult(code, error, decimal.MinValue);
