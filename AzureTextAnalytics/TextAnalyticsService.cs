@@ -28,7 +28,7 @@
         {
             if (string.IsNullOrWhiteSpace(text))
             {
-                return SentimentResult.Build(HttpStatusCode.BadRequest, Constants.NullInputErrorText);
+                return SentimentResult.Build(HttpStatusCode.BadRequest, Constants.SentimentNullInputErrorText);
             }
 
             var request = $"{Constants.SentimentRequest}{HttpUtility.UrlEncode(text)}";
@@ -43,6 +43,27 @@
 
             var result = JsonConvert.DeserializeObject<AzureSentimentResult>(content);
             return SentimentResult.Build(result.Score);
+        }
+
+        public async Task<KeyPhraseResult> GetKeyPhrases(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return KeyPhraseResult.Build(HttpStatusCode.BadRequest, Constants.KeyPhraseNullInputErrorText);
+            }
+
+            var request = $"{Constants.KeyPhraseRequest}{HttpUtility.UrlEncode(text)}";
+
+            var response = await this._requestor.GetAsync(request);
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return KeyPhraseResult.Build(response.StatusCode, content);
+            }
+
+            var result = JsonConvert.DeserializeObject<AzureKeyPhraseResult>(content);
+            return KeyPhraseResult.Build(result.KeyPhrases);
         }
     }
 }

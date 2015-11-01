@@ -9,18 +9,18 @@
     using TextAnalyticsService = AzureTextAnalytics.TextAnalyticsService;
 
     [TestClass]
-    public class GetSentimentShould
+    public class GetKeyPhrasesShould
     {
         [TestMethod]
         public async Task GetResultFromAzure()
         {
-            var expected = SentimentResult.Build(0.9742637M);
-            const string Input = "This is very positive text because I love this service";
+            var expected = KeyPhraseResult.Build(new[] { "bunch of phrases", "wonderful hotel", "great service", "text" });
+            const string Input = "I need some text that can extract a bunch of phrases from. This was a wonderful hotel with great service but really overpriced.";
 
             var settings = new Settings();
             var sut = new TextAnalyticsService(new TextAnalyticsRequestor(new RequestHeaderFactory(settings), settings));
-            var result = await sut.GetSentimentAsync(Input);
-            Assert.AreEqual(expected, result);
+            var result = await sut.GetKeyPhrases(Input);
+            Assert.AreEqual(expected, result, string.Join(",", result.Phrases));
         }
     }
 }

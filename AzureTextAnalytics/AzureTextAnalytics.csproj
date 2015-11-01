@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\ErrorRecord.cs" />
+    <Compile Include="Domain\HttpResult.cs" />
     <Compile Include="Domain\ISettings.cs" />
     <Compile Include="Domain\ITextAnalyticsService.cs" />
     <Compile Include="Domain\Azure\AzureKeyPhraseResult.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Domain\Azure\AzureSentimentResult.cs" />
     <Compile Include="Domain\IRequestHeaderFactory.cs" />
     <Compile Include="Domain\ITextAnalyticsRequestor.cs" />
+    <Compile Include="Domain\KeyPhraseResult.cs" />
     <Compile Include="Domain\SentimentResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestHeaderFactory.cs" />

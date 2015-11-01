@@ -80,7 +80,9 @@
     <Compile Include="Settings\GetApiKeyShould.cs" />
     <Compile Include="Settings\GetServiceBaseUriShould.cs" />
     <Compile Include="Settings\SettingsTest.cs" />
+    <Compile Include="TextAnalyticsService\GetKeyPhrasesShould.cs" />
     <Compile Include="TextAnalyticsService\GetSentimentShould.cs" />
+    <Compile Include="TextAnalyticsService\TextAnalyticsTextHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

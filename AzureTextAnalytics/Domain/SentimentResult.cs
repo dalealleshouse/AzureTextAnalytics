@@ -3,38 +3,31 @@ namespace AzureTextAnalytics.Domain
     using System;
     using System.Net;
 
-    public struct SentimentResult
+    public class SentimentResult : HttpResult
     {
-        private SentimentResult(HttpStatusCode code, string error, decimal result)
+        private SentimentResult(HttpStatusCode code, string error, decimal score)
+            : base(code, error)
         {
-            this.StatusCode = code;
-            this.Error = error;
-            this.Result = result;
+            this.Score = score;
         }
 
-        public HttpStatusCode StatusCode { get; }
-
-        public decimal Result { get; }
-
-        public string Error { get; }
+        public decimal Score { get; }
 
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType()) return false;
 
-            var sr = (SentimentResult)obj;
-            return StatusCode == sr.StatusCode && Result == sr.Result && Error == sr.Error;
+            var s = (SentimentResult)obj;
+            return base.Equals(obj) && this.Score == s.Score;
         }
 
-        public override int GetHashCode() => StatusCode.GetHashCode() ^ Result.GetHashCode() ^ Error?.GetHashCode() ?? 0;
-
-        public bool Success => this.StatusCode == HttpStatusCode.OK;
+        public override int GetHashCode() => base.GetHashCode() ^ Score.GetHashCode();
 
         public static SentimentResult Build(decimal result)
         {
             if (result < 0 || result > 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(result), Constants.ResultOutOfRangeError);
+                throw new ArgumentOutOfRangeException(nameof(result), Constants.ScoreOutOfRangeError);
             }
             return new SentimentResult(HttpStatusCode.OK, null, result);
         }

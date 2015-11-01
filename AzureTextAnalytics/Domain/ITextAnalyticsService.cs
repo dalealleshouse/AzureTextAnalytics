@@ -5,5 +5,7 @@
     public interface ITextAnalyticsService
     {
         Task<SentimentResult> GetSentimentAsync(string text);
+
+        Task<KeyPhraseResult> GetKeyPhrases(string text);
     }
 }
