@@ -6,8 +6,6 @@
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    using TextAnalyticsService = AzureTextAnalytics.TextAnalyticsService;
-
     [TestClass]
     public class GetKeyPhrasesShould
     {
@@ -17,8 +15,7 @@
             var expected = KeyPhraseResult.Build(new[] { "bunch of phrases", "wonderful hotel", "great service", "text" });
             const string Input = "I need some text that can extract a bunch of phrases from. This was a wonderful hotel with great service but really overpriced.";
 
-            var settings = new Settings();
-            var sut = new TextAnalyticsService(new TextAnalyticsRequestor(new RequestHeaderFactory(settings), settings));
+            var sut = ServiceFactory.Build();
             var result = await sut.GetKeyPhrases(Input);
             Assert.AreEqual(expected, result, string.Join(",", result.Phrases));
         }
