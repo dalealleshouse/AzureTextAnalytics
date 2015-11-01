@@ -42,7 +42,7 @@ The service returns a a collection of key phrases.
 ```csharp
 var service = ServiceFactory.Build();
 
-var phrases = service.GetKeyPhrases("This is some awesome text that needs the key phrases extracted from.").Result;
+var phrases = service.GetKeyPhrasesAsync("This is some awesome text that needs the key phrases extracted from.").Result;
 Console.WriteLine(
     sentiment.Success
         ? $"The key phrases are: {string.Join(",", phrases.Phrases)}"

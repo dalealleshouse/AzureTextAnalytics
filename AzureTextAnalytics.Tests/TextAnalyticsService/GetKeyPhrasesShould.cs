@@ -24,7 +24,7 @@ namespace AzureTextAnalytics.Tests.TextAnalyticsService
             var requestor = TextAnalyticsTestHelper.BuildMockRequestor(s => { }, TextAnalyticsTestHelper.GetErrorMessage(Error));
             var sut = TextAnalyticsTestHelper.BuildSut(requestor.Object);
 
-            var result = await sut.GetKeyPhrases(null);
+            var result = await sut.GetKeyPhrasesAsync(null);
             Assert.AreEqual(expected, result);
         }
 
@@ -36,7 +36,7 @@ namespace AzureTextAnalytics.Tests.TextAnalyticsService
 
             var requestor = TextAnalyticsTestHelper.BuildMockRequestor(s => request = s, GetMessage());
             var sut = TextAnalyticsTestHelper.BuildSut(requestor.Object);
-            await sut.GetKeyPhrases(Input);
+            await sut.GetKeyPhrasesAsync(Input);
 
             Assert.AreEqual(expected, request);
         }
@@ -48,7 +48,7 @@ namespace AzureTextAnalytics.Tests.TextAnalyticsService
             var requestor = TextAnalyticsTestHelper.BuildMockRequestor(s => { }, GetMessage());
 
             var sut = TextAnalyticsTestHelper.BuildSut(requestor.Object);
-            var result = await sut.GetKeyPhrases(Input);
+            var result = await sut.GetKeyPhrasesAsync(Input);
             Assert.AreEqual(expected, result);
         }
 
@@ -59,7 +59,7 @@ namespace AzureTextAnalytics.Tests.TextAnalyticsService
             var requestor = TextAnalyticsTestHelper.BuildMockRequestor(s => { }, TextAnalyticsTestHelper.GetErrorMessage(Error));
 
             var sut = TextAnalyticsTestHelper.BuildSut(requestor.Object);
-            var result = await sut.GetKeyPhrases(Input);
+            var result = await sut.GetKeyPhrasesAsync(Input);
             Assert.AreEqual(expected, result);
         }
 

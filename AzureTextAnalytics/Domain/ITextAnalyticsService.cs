@@ -6,6 +6,6 @@
     {
         Task<SentimentResult> GetSentimentAsync(string text);
 
-        Task<KeyPhraseResult> GetKeyPhrases(string text);
+        Task<KeyPhraseResult> GetKeyPhrasesAsync(string text);
     }
 }

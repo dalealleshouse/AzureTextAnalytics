@@ -14,7 +14,7 @@
                     ? $"The sentiment score is {sentiment.Score}"
                     : $"Error: Http Status: {sentiment.StatusCode}, Contents: {sentiment.Error}");
 
-            var phrases = service.GetKeyPhrases("This is some awesome text that needs the key phrases extracted from.").Result;
+            var phrases = service.GetKeyPhrasesAsync("This is some awesome text that needs the key phrases extracted from.").Result;
             Console.WriteLine(
                 sentiment.Success
                     ? $"The key phrases are: {string.Join(",", phrases.Phrases)}"

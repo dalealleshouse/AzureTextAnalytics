@@ -45,7 +45,7 @@
             return SentimentResult.Build(result.Score);
         }
 
-        public async Task<KeyPhraseResult> GetKeyPhrases(string text)
+        public async Task<KeyPhraseResult> GetKeyPhrasesAsync(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
             {

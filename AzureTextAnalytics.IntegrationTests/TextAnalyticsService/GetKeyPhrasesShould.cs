@@ -16,7 +16,7 @@
             const string Input = "I need some text that can extract a bunch of phrases from. This was a wonderful hotel with great service but really overpriced.";
 
             var sut = ServiceFactory.Build();
-            var result = await sut.GetKeyPhrases(Input);
+            var result = await sut.GetKeyPhrasesAsync(Input);
             Assert.AreEqual(expected, result, string.Join(",", result.Phrases));
         }
     }
