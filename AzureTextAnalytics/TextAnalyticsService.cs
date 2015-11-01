@@ -32,13 +32,14 @@
             }
 
             var request = $"{Constants.SentimentRequest}{HttpUtility.UrlEncode(text)}";
-
-            var response = await this._requestor.GetAsync(request);
-            var content = await response.Content.ReadAsStringAsync();
-
-            if (!response.IsSuccessStatusCode)
+            string content;
+            using (var response = await this._requestor.GetAsync(request))
             {
-                return SentimentResult.Build(response.StatusCode, content);
+                content = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    return SentimentResult.Build(response.StatusCode, content);
+                }
             }
 
             var result = JsonConvert.DeserializeObject<AzureSentimentResult>(content);
@@ -54,12 +55,15 @@
 
             var request = $"{Constants.KeyPhraseRequest}{HttpUtility.UrlEncode(text)}";
 
-            var response = await this._requestor.GetAsync(request);
-            var content = await response.Content.ReadAsStringAsync();
-
-            if (!response.IsSuccessStatusCode)
+            string content;
+            using (var response = await this._requestor.GetAsync(request))
             {
-                return KeyPhraseResult.Build(response.StatusCode, content);
+                content = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return KeyPhraseResult.Build(response.StatusCode, content);
+                }
             }
 
             var result = JsonConvert.DeserializeObject<AzureKeyPhraseResult>(content);

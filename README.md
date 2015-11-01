@@ -28,7 +28,7 @@ The service returns a score betwen 0 and 1 where 0 is negative and 1 is positive
 ```csharp
 var service = ServiceFactory.Build();
 
-var sentiment = service.GetSentimentAsync("This is some awesome text that needs sentiment analysis;").Result;
+var sentiment = await service.GetSentimentAsync("This is some awesome text that needs sentiment analysis;");
 Console.WriteLine(
     sentiment.Success
         ? $"The sentiment score is {sentiment.Score}"
@@ -42,9 +42,9 @@ The service returns a a collection of key phrases.
 ```csharp
 var service = ServiceFactory.Build();
 
-var phrases = service.GetKeyPhrasesAsync("This is some awesome text that needs the key phrases extracted from.").Result;
+var phrases = await service.GetKeyPhrasesAsync("This is some awesome text that needs the key phrases extracted from.");
 Console.WriteLine(
-    sentiment.Success
+    phrases.Success
         ? $"The key phrases are: {string.Join(",", phrases.Phrases)}"
         : $"Error: Http Status: {phrases.StatusCode}, Contents: {phrases.Error}");
 ```
