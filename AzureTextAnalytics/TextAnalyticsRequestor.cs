@@ -30,14 +30,31 @@
 
         public async Task<HttpResponseMessage> GetAsync(string request)
         {
-            using (var client = new HttpClient())
+            using (var client = this.BuildClient())
             {
-                client.BaseAddress = this._settings.GetServiceBaseUri();
-                client.DefaultRequestHeaders.Add(Constants.AuthorizationHeaderName, this._headerFactory.AuthorizationHeader());
-                client.DefaultRequestHeaders.Accept.Add(this._headerFactory.AcceptHeader());
-
                 return await client.GetAsync(request);
             }
+        }
+
+        public async Task<HttpResponseMessage> PostAsync(string request, string body)
+        {
+            using (var client = this.BuildClient())
+            {
+                using (var content = new StringContent(body))
+                {
+                    return await client.PostAsync(request, content);
+                }
+            }
+        }
+
+        private HttpClient BuildClient()
+        {
+            var client = new HttpClient { BaseAddress = this._settings.GetServiceBaseUri() };
+
+            client.DefaultRequestHeaders.Add(Constants.AuthorizationHeaderName, this._headerFactory.AuthorizationHeader());
+            client.DefaultRequestHeaders.Accept.Add(this._headerFactory.AcceptHeader());
+
+            return client;
         }
     }
 }

@@ -78,8 +78,10 @@
     <Compile Include="RequestHeaderFactory\AcceptHeaderShould.cs" />
     <Compile Include="RequestHeaderFactory\AuthorizationHeaderShould.cs" />
     <Compile Include="Settings\GetApiKeyShould.cs" />
+    <Compile Include="Settings\GetBatchLimitShould.cs" />
     <Compile Include="Settings\GetServiceBaseUriShould.cs" />
     <Compile Include="Settings\SettingsTest.cs" />
+    <Compile Include="TextAnalyticsService\GetBatchSentimentShould.cs" />
     <Compile Include="TextAnalyticsService\GetKeyPhrasesShould.cs" />
     <Compile Include="TextAnalyticsService\GetSentimentShould.cs" />
     <Compile Include="TextAnalyticsService\TextAnalyticsTextHelper.cs" />

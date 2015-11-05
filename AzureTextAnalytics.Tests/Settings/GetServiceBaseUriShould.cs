@@ -13,6 +13,7 @@
         [TestMethod]
         public void ReturnDefaultWhenNotSet()
         {
+            ConfigurationManager.AppSettings[Constants.ServiceBaseUriConfigKey] = null;
             var result = this.Sut.GetServiceBaseUri();
             Assert.AreEqual(new Uri(Constants.DefaultServiceBaseUri), result);
         }

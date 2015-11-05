@@ -34,5 +34,23 @@
                 throw new UriFormatException($"Unable to parse the {Constants.DefaultServiceBaseUri} setting into a valid URI");
             }
         }
+
+        public int GetBatchLimit()
+        {
+            var configValue = ConfigurationManager.AppSettings[Constants.BatchLimitConfigKey];
+
+            if (configValue == null)
+            {
+                return Constants.DefaultBatchLimit;
+            }
+
+            int limit;
+            if (!int.TryParse(configValue, out limit))
+            {
+                throw new InvalidCastException($"Invalid value for {Constants.BatchLimitConfigKey} configraution setting");
+            }
+
+            return limit;
+        }
     }
 }

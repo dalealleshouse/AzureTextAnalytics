@@ -52,7 +52,7 @@
     <Compile Include="Domain\ITextAnalyticsService.cs" />
     <Compile Include="Domain\Azure\AzureKeyPhraseResult.cs" />
     <Compile Include="Domain\Azure\KeyPhrasesBatchResult.cs" />
-    <Compile Include="Domain\Azure\SentimentBatchResult.cs" />
+    <Compile Include="Domain\Azure\AzureSentimentBatchResult.cs" />
     <Compile Include="Domain\Azure\AzureSentimentResult.cs" />
     <Compile Include="Domain\IRequestHeaderFactory.cs" />
     <Compile Include="Domain\ITextAnalyticsRequestor.cs" />

@@ -21,8 +21,7 @@ namespace AzureTextAnalytics.Tests.TextAnalyticsService
         public async Task ReturnBadRequestIfEmptyInput()
         {
             var expected = KeyPhraseResult.Build(HttpStatusCode.BadRequest, Constants.KeyPhraseNullInputErrorText);
-            var requestor = TextAnalyticsTestHelper.BuildMockRequestor(s => { }, TextAnalyticsTestHelper.GetErrorMessage(Error));
-            var sut = TextAnalyticsTestHelper.BuildSut(requestor.Object);
+            var sut = TextAnalyticsTestHelper.BuildSut(TextAnalyticsTestHelper.GetErrorMessage(Error));
 
             var result = await sut.GetKeyPhrasesAsync(null);
             Assert.AreEqual(expected, result);
@@ -34,7 +33,7 @@ namespace AzureTextAnalytics.Tests.TextAnalyticsService
             var expected = $"{Constants.KeyPhraseRequest}{HttpUtility.UrlEncode(Input)}";
             var request = "";
 
-            var requestor = TextAnalyticsTestHelper.BuildMockRequestor(s => request = s, GetMessage());
+            var requestor = TextAnalyticsTestHelper.BuildMockRequestorForGet(s => request = s, GetMessage());
             var sut = TextAnalyticsTestHelper.BuildSut(requestor.Object);
             await sut.GetKeyPhrasesAsync(Input);
 
@@ -45,9 +44,8 @@ namespace AzureTextAnalytics.Tests.TextAnalyticsService
         public async Task DecodeResponse()
         {
             var expected = KeyPhraseResult.Build(new[] { "wonderful hotel", "unique decor", "friendly staff" });
-            var requestor = TextAnalyticsTestHelper.BuildMockRequestor(s => { }, GetMessage());
 
-            var sut = TextAnalyticsTestHelper.BuildSut(requestor.Object);
+            var sut = TextAnalyticsTestHelper.BuildSut(GetMessage());
             var result = await sut.GetKeyPhrasesAsync(Input);
             Assert.AreEqual(expected, result);
         }
@@ -56,9 +54,8 @@ namespace AzureTextAnalytics.Tests.TextAnalyticsService
         public async Task ReturnFailureOnBadResult()
         {
             var expected = KeyPhraseResult.Build(HttpStatusCode.BadRequest, Error);
-            var requestor = TextAnalyticsTestHelper.BuildMockRequestor(s => { }, TextAnalyticsTestHelper.GetErrorMessage(Error));
 
-            var sut = TextAnalyticsTestHelper.BuildSut(requestor.Object);
+            var sut = TextAnalyticsTestHelper.BuildSut(TextAnalyticsTestHelper.GetErrorMessage(Error));
             var result = await sut.GetKeyPhrasesAsync(Input);
             Assert.AreEqual(expected, result);
         }

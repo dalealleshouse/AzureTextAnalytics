@@ -6,5 +6,7 @@ namespace AzureTextAnalytics.Domain
     public interface ITextAnalyticsRequestor
     {
         Task<HttpResponseMessage> GetAsync(string request);
+
+        Task<HttpResponseMessage> PostAsync(string request, string body);
     }
 }

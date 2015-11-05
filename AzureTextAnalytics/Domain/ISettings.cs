@@ -7,5 +7,7 @@
         string GetApiKey();
 
         Uri GetServiceBaseUri();
+
+        int GetBatchLimit();
     }
 }
