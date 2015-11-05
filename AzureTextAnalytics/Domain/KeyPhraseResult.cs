@@ -1,14 +1,12 @@
 namespace AzureTextAnalytics.Domain
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Net;
 
     public class KeyPhraseResult : HttpResult
     {
-        private KeyPhraseResult(HttpStatusCode code, string error, IEnumerable<string> phrases)
-            : base(code, error)
+        private KeyPhraseResult(bool success, string error, IEnumerable<string> phrases)
+            : base(success, error)
         {
             this.Phrases = phrases ?? new string[0];
         }
@@ -25,24 +23,8 @@ namespace AzureTextAnalytics.Domain
 
         public override int GetHashCode() => base.GetHashCode() ^ this.Phrases.GetHashCode();
 
-        public static KeyPhraseResult Build(IEnumerable<string> phrases)
-        {
-            return new KeyPhraseResult(HttpStatusCode.OK, null, phrases);
-        }
+        public static KeyPhraseResult Build(IEnumerable<string> phrases) => new KeyPhraseResult(true, null, phrases);
 
-        public static KeyPhraseResult Build(HttpStatusCode code, string error)
-        {
-            if (code == HttpStatusCode.OK)
-            {
-                throw new InvalidOperationException(Constants.ErrorWithOkResultErrorText);
-            }
-
-            return new KeyPhraseResult(code, error, null);
-        }
-
-        public static KeyPhraseResult Build(HttpStatusCode code, string error, IEnumerable<string> phrases)
-        {
-            return code == HttpStatusCode.OK ? Build(phrases) : Build(code, error);
-        }
+        public static KeyPhraseResult Build(string error) => new KeyPhraseResult(false, error, null);
     }
 }

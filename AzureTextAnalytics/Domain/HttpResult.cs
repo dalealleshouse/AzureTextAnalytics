@@ -1,33 +1,30 @@
 ﻿namespace AzureTextAnalytics.Domain
 {
-    using System.Net;
-
     public abstract class HttpResult
     {
-        private HttpResult()
+        HttpResult()
         {
         }
 
-        protected HttpResult(HttpStatusCode code, string error)
+        protected HttpResult(bool success, string error)
         {
-            this.StatusCode = code;
+            this.Success = success;
             this.Error = error;
         }
 
-        public HttpStatusCode StatusCode { get; }
-
         public string Error { get; }
+
+        public bool Success { get; }
 
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType()) return false;
 
             var sr = (HttpResult)obj;
-            return StatusCode == sr.StatusCode && Error == sr.Error;
+            return Success == sr.Success && Error == sr.Error;
         }
 
-        public override int GetHashCode() => StatusCode.GetHashCode() ^ Error?.GetHashCode() ?? 0;
+        public override int GetHashCode() => Success.GetHashCode() ^ Error?.GetHashCode() ?? 0;
 
-        public bool Success => this.StatusCode == HttpStatusCode.OK;
     }
 }

@@ -9,6 +9,8 @@
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    using ErrorMessageGenerator = AzureTextAnalytics.ErrorMessageGenerator;
+
     [TestClass]
     public class GetSentimentShould
     {
@@ -19,7 +21,7 @@
         [TestMethod]
         public async Task ReturnBadRequestIfEmptyInput()
         {
-            var expected = SentimentResult.Build(HttpStatusCode.BadRequest, Constants.SentimentNullInputErrorText);
+            var expected = SentimentResult.Build(Constants.SentimentNullInputErrorText);
             var sut = TextAnalyticsTestHelper.BuildSut(GetMessage());
 
             var result = await sut.GetSentimentAsync(null);
@@ -52,7 +54,8 @@
         [TestMethod]
         public async Task ReturnFailureOnBadResult()
         {
-            var expected = SentimentResult.Build(HttpStatusCode.BadRequest, Error);
+            var error = new ErrorMessageGenerator().GenerateError(HttpStatusCode.BadRequest, Error);
+            var expected = SentimentResult.Build(error);
 
             var sut = TextAnalyticsTestHelper.BuildSut(TextAnalyticsTestHelper.GetErrorMessage(Error));
             var result = await sut.GetSentimentAsync(Input);

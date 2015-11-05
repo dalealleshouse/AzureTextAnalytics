@@ -9,7 +9,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class GetBatchSentimentShould
+    public class GetBatchKeyPhrasesShould
     {
         [TestMethod]
         public async Task GetResultFromAzure()
@@ -22,16 +22,16 @@
                                 { "4", "" }
                             };
 
-            var expected = new Dictionary<string, SentimentResult>
+            var expected = new Dictionary<string, KeyPhraseResult>
                                {
-                                   { "1", SentimentResult.Build(0.9742637M) },
-                                   { "2", SentimentResult.Build(0.03089833M) },
-                                   { "3", SentimentResult.Build(0.4267564M) },
-                                   { "4", SentimentResult.Build("Record cannot be null/empty") }
+                                   { "1", KeyPhraseResult.Build(new[] {"service", "positive text"}) },
+                                   { "2", KeyPhraseResult.Build(new[] {"Test", "service"}) },
+                                   { "3", KeyPhraseResult.Build(new[] {"service"}) },
+                                   { "4", KeyPhraseResult.Build("Record cannot be null/empty") }
                                };
 
             var sut = ServiceFactory.Build();
-            var result = await sut.GetBatchSentimentAsync(input);
+            var result = await sut.GetBatchKeyPhrasesAsync(input);
             CollectionAssert.AreEquivalent(expected, result.ToList());
         }
     }

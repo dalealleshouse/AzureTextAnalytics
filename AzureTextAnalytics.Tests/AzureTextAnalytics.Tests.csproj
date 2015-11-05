@@ -74,6 +74,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ErrorMessageGenerator\ParseErrorShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestHeaderFactory\AcceptHeaderShould.cs" />
     <Compile Include="RequestHeaderFactory\AuthorizationHeaderShould.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Settings\GetBatchLimitShould.cs" />
     <Compile Include="Settings\GetServiceBaseUriShould.cs" />
     <Compile Include="Settings\SettingsTest.cs" />
+    <Compile Include="TextAnalyticsService\GetBatchKeyPhrasesShould.cs" />
     <Compile Include="TextAnalyticsService\GetBatchSentimentShould.cs" />
     <Compile Include="TextAnalyticsService\GetKeyPhrasesShould.cs" />
     <Compile Include="TextAnalyticsService\GetSentimentShould.cs" />

@@ -1,6 +1,6 @@
-﻿namespace AzureTextAnalytics.Domain
+﻿namespace AzureTextAnalytics.Domain.Azure
 {
-    public class ErrorRecord
+    public class AzureErrorRecord
     {
         public string Id { get; set; }
 

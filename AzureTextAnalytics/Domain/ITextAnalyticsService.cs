@@ -10,5 +10,7 @@
         Task<IDictionary<string, SentimentResult>> GetBatchSentimentAsync(Dictionary<string, string> textBatch);
 
         Task<KeyPhraseResult> GetKeyPhrasesAsync(string text);
+
+        Task<IDictionary<string, KeyPhraseResult>> GetBatchKeyPhrasesAsync(Dictionary<string, string> textBatch);
     }
 }

@@ -29,5 +29,7 @@ namespace AzureTextAnalytics
         public const string SentimentBatchRequest = "data.ashx/amla/text-analytics/v1/GetSentimentBatch";
 
         public const string KeyPhraseRequest = "data.ashx/amla/text-analytics/v1/GetKeyPhrases?Text=";
+
+        public const string KeyPhraseBatchRequest = "data.ashx/amla/text-analytics/v1/GetKeyPhrasesBatch";
     }
 }

@@ -11,6 +11,7 @@ namespace AzureTextAnalytics.Tests.TextAnalyticsService
 
     using Moq;
 
+    using ErrorMessageGenerator = AzureTextAnalytics.ErrorMessageGenerator;
     using Settings = AzureTextAnalytics.Settings;
     using TextAnalyticsService = AzureTextAnalytics.TextAnalyticsService;
 
@@ -24,7 +25,7 @@ namespace AzureTextAnalytics.Tests.TextAnalyticsService
 
         public static TextAnalyticsService BuildSut(ITextAnalyticsRequestor requestor)
         {
-            var sut = new SutBuilder<TextAnalyticsService>().AddDependency(requestor).AddDependency(new Settings()).Build();
+            var sut = new SutBuilder<TextAnalyticsService>().AddDependency(requestor).AddDependency(new Settings()).AddDependency(new ErrorMessageGenerator()).Build();
             return sut;
         }
 

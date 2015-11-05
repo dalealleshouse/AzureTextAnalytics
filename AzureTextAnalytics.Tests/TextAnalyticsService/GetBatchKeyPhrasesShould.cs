@@ -17,7 +17,7 @@
     using ErrorMessageGenerator = AzureTextAnalytics.ErrorMessageGenerator;
 
     [TestClass]
-    public class GetBatchSentimentShould
+    public class GetBatchKeyPhrasesShould
     {
         private const string Error = "Real bad error happend";
 
@@ -41,7 +41,7 @@
                 requests.Add(i.ToString(), "this is text");
             }
 
-            AssertEx.TaskThrows<InvalidOperationException>(() => sut.GetBatchSentimentAsync(requests));
+            AssertEx.TaskThrows<InvalidOperationException>(() => sut.GetBatchKeyPhrasesAsync(requests));
         }
 
         [TestMethod]
@@ -50,7 +50,7 @@
             var expected = new Dictionary<string, SentimentResult>();
             var sut = TextAnalyticsTestHelper.BuildSut(GetMessage());
 
-            var result = await sut.GetBatchSentimentAsync(new Dictionary<string, string>());
+            var result = await sut.GetBatchKeyPhrasesAsync(new Dictionary<string, string>());
             CollectionAssert.AreEqual(expected, result.ToList());
         }
 
@@ -63,7 +63,7 @@
 
             var requestor = TextAnalyticsTestHelper.BuildMockRequestorForPost((req, body) => request = body, GetMessage());
             var sut = TextAnalyticsTestHelper.BuildSut(requestor.Object);
-            await sut.GetBatchSentimentAsync(this._input);
+            await sut.GetBatchKeyPhrasesAsync(this._input);
 
             Assert.AreEqual(Expected, request);
         }
@@ -71,16 +71,16 @@
         [TestMethod]
         public async Task DecodeResponse()
         {
-            var expected = new Dictionary<string, SentimentResult>
+            var expected = new Dictionary<string, KeyPhraseResult>
                                {
-                                   { "1", SentimentResult.Build(0.9549767M) },
-                                   { "2", SentimentResult.Build(0.7767222M) },
-                                   { "3", SentimentResult.Build(0.8988889M) },
-                                   { "4", SentimentResult.Build("Record cannot be null/empty") }
+                                   { "1", KeyPhraseResult.Build(new[] { "unique decor", "friendly staff", "wonderful hotel" }) },
+                                   { "2", KeyPhraseResult.Build(new[] { "amazing build conference", "interesting talks" }) },
+                                   { "3", KeyPhraseResult.Build(new[] { "hours", "traffic", "airport" }) },
+                                   { "4", KeyPhraseResult.Build("Record cannot be null/empty") }
                                };
             var sut = TextAnalyticsTestHelper.BuildSut(GetMessage());
 
-            var result = await sut.GetBatchSentimentAsync(this._input);
+            var result = await sut.GetBatchKeyPhrasesAsync(this._input);
 
             CollectionAssert.AreEquivalent(expected, result.ToList());
         }
@@ -89,31 +89,36 @@
         public async Task ReturnAllFailureOnBadResult()
         {
             var err = new ErrorMessageGenerator().GenerateError(HttpStatusCode.BadRequest, Error);
-            var expected = new Dictionary<string, SentimentResult>
+            var expected = new Dictionary<string, KeyPhraseResult>
                                {
-                                   { "1", SentimentResult.Build(err) },
-                                   { "2", SentimentResult.Build(err) },
-                                   { "3", SentimentResult.Build(err) },
-                                   { "4", SentimentResult.Build(err) }
+                                   { "1", KeyPhraseResult.Build(err) },
+                                   { "2", KeyPhraseResult.Build(err) },
+                                   { "3", KeyPhraseResult.Build(err) },
+                                   { "4", KeyPhraseResult.Build(err) }
                                };
 
             var sut = TextAnalyticsTestHelper.BuildSut(TextAnalyticsTestHelper.GetErrorMessage(Error));
-            var result = await sut.GetBatchSentimentAsync(this._input);
+            var result = await sut.GetBatchKeyPhrasesAsync(this._input);
             CollectionAssert.AreEqual(expected, result.ToList());
         }
 
         private static HttpResponseMessage GetMessage()
         {
-            return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(@"{
-  ""odata.metadata"":""https://api.datamarket.azure.com/data.ashx/amla/text-analytics/v1/$metadata"", ""SentimentBatch"":
-    [{""Score"":0.9549767,""Id"":""1""},
-     {""Score"":0.7767222,""Id"":""2""},
-     {""Score"":0.8988889,""Id"":""3""}
-    ],  
+            return new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content =
+                               new StringContent(@"{ ""odata.metadata"":""https://api.datamarket.azure.com/data.ashx/amla/text-analytics/v1/$metadata"",
+    ""KeyPhrasesBatch"":
+    [
+       {""KeyPhrases"":[""unique decor"",""friendly staff"",""wonderful hotel""],""Id"":""1""},
+       {""KeyPhrases"":[""amazing build conference"",""interesting talks""],""Id"":""2""},
+       {""KeyPhrases"":[""hours"",""traffic"",""airport""],""Id"":""3"" }
+    ],
     ""Errors"":[
        {""Id"": ""4"", Message:""Record cannot be null/empty""}
     ]
-}") };
+}")
+            };
         }
     }
 }

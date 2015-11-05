@@ -1,12 +1,11 @@
 namespace AzureTextAnalytics.Domain
 {
     using System;
-    using System.Net;
 
     public class SentimentResult : HttpResult
     {
-        private SentimentResult(HttpStatusCode code, string error, decimal score)
-            : base(code, error)
+        private SentimentResult(bool success, string error, decimal score)
+            : base(success, error)
         {
             this.Score = score;
         }
@@ -29,22 +28,13 @@ namespace AzureTextAnalytics.Domain
             {
                 throw new ArgumentOutOfRangeException(nameof(result), Constants.ScoreOutOfRangeError);
             }
-            return new SentimentResult(HttpStatusCode.OK, null, result);
+
+            return new SentimentResult(true, null, result);
         }
 
-        public static SentimentResult Build(HttpStatusCode code, string error)
+        public static SentimentResult Build(string error)
         {
-            if (code == HttpStatusCode.OK)
-            {
-                throw new InvalidOperationException(Constants.ErrorWithOkResultErrorText);
-            }
-
-            return new SentimentResult(code, error, decimal.MinValue);
-        }
-
-        public static SentimentResult Build(HttpStatusCode code, string error, decimal result)
-        {
-            return code == HttpStatusCode.OK ? Build(result) : Build(code, error);
+            return new SentimentResult(false, error, decimal.MinValue);
         }
     }
 }

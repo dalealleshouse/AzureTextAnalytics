@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
 
-    public class AzureSentimentBatchResult
+    public class AzureKeyPhrasesBatchResult
     {
-        public IEnumerable<AzureSentimentResult> SentimentBatch { get; set; }
+        public IEnumerable<AzureKeyPhraseResult> KeyPhrasesBatch { get; set; }
 
         public IEnumerable<AzureErrorRecord> Errors { get; set; }
     }

@@ -10,6 +10,8 @@ namespace AzureTextAnalytics.Tests.TextAnalyticsService
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    using ErrorMessageGenerator = AzureTextAnalytics.ErrorMessageGenerator;
+
     [TestClass]
     public class GetKeyPhrasesShould
     {
@@ -20,7 +22,7 @@ namespace AzureTextAnalytics.Tests.TextAnalyticsService
         [TestMethod]
         public async Task ReturnBadRequestIfEmptyInput()
         {
-            var expected = KeyPhraseResult.Build(HttpStatusCode.BadRequest, Constants.KeyPhraseNullInputErrorText);
+            var expected = KeyPhraseResult.Build(Constants.KeyPhraseNullInputErrorText);
             var sut = TextAnalyticsTestHelper.BuildSut(TextAnalyticsTestHelper.GetErrorMessage(Error));
 
             var result = await sut.GetKeyPhrasesAsync(null);
@@ -53,7 +55,8 @@ namespace AzureTextAnalytics.Tests.TextAnalyticsService
         [TestMethod]
         public async Task ReturnFailureOnBadResult()
         {
-            var expected = KeyPhraseResult.Build(HttpStatusCode.BadRequest, Error);
+            var error = new ErrorMessageGenerator().GenerateError(HttpStatusCode.BadRequest, Error);
+            var expected = KeyPhraseResult.Build(error);
 
             var sut = TextAnalyticsTestHelper.BuildSut(TextAnalyticsTestHelper.GetErrorMessage(Error));
             var result = await sut.GetKeyPhrasesAsync(Input);

@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Net;
     using System.Text;
     using System.Threading.Tasks;
     using System.Web;
@@ -17,13 +16,20 @@
     {
         private readonly ITextAnalyticsRequestor _requestor;
 
+        private readonly IErrorMessageGenerator _errorMessageGenerator;
+
         private readonly ISettings _settings;
 
-        public TextAnalyticsService(ITextAnalyticsRequestor requestor, ISettings settings)
+        public TextAnalyticsService(ITextAnalyticsRequestor requestor, IErrorMessageGenerator errorMessageGenerator, ISettings settings)
         {
             if (requestor == null)
             {
                 throw new ArgumentNullException(nameof(requestor));
+            }
+
+            if (errorMessageGenerator == null)
+            {
+                throw new ArgumentNullException(nameof(errorMessageGenerator));
             }
 
             if (settings == null)
@@ -32,6 +38,7 @@
             }
 
             this._requestor = requestor;
+            this._errorMessageGenerator = errorMessageGenerator;
             this._settings = settings;
         }
 
@@ -39,7 +46,7 @@
         {
             if (string.IsNullOrWhiteSpace(text))
             {
-                return SentimentResult.Build(HttpStatusCode.BadRequest, Constants.SentimentNullInputErrorText);
+                return SentimentResult.Build(Constants.SentimentNullInputErrorText);
             }
 
             var request = $"{Constants.SentimentRequest}{HttpUtility.UrlEncode(text)}";
@@ -49,7 +56,7 @@
                 content = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
                 {
-                    return SentimentResult.Build(response.StatusCode, content);
+                    return SentimentResult.Build(this._errorMessageGenerator.GenerateError(response.StatusCode, content));
                 }
             }
 
@@ -59,15 +66,7 @@
 
         public async Task<IDictionary<string, SentimentResult>> GetBatchSentimentAsync(Dictionary<string, string> textBatch)
         {
-            if (textBatch == null)
-            {
-                throw new ArgumentNullException(nameof(textBatch));
-            }
-
-            if (textBatch.Count > this._settings.GetBatchLimit())
-            {
-                throw new InvalidOperationException(Constants.BatchLimitExceededErrorText);
-            }
+            this.ValidateBatchRequest(textBatch);
 
             if (!textBatch.Any())
             {
@@ -80,8 +79,7 @@
                 content = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
                 {
-                    var status = response.StatusCode;
-                    return textBatch.ToDictionary(r => r.Key, r => SentimentResult.Build(status, content));
+                    return textBatch.ToDictionary(r => r.Key, r => SentimentResult.Build(this._errorMessageGenerator.GenerateError(response.StatusCode, content)));
                 }
             }
 
@@ -91,7 +89,7 @@
 
             foreach (var error in result.Errors)
             {
-                parsedResults.Add(error.Id, SentimentResult.Build(HttpStatusCode.BadRequest, error.Message));
+                parsedResults.Add(error.Id, SentimentResult.Build(error.Message));
             }
 
             return parsedResults;
@@ -101,7 +99,7 @@
         {
             if (string.IsNullOrWhiteSpace(text))
             {
-                return KeyPhraseResult.Build(HttpStatusCode.BadRequest, Constants.KeyPhraseNullInputErrorText);
+                return KeyPhraseResult.Build(Constants.KeyPhraseNullInputErrorText);
             }
 
             var request = $"{Constants.KeyPhraseRequest}{HttpUtility.UrlEncode(text)}";
@@ -113,12 +111,56 @@
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    return KeyPhraseResult.Build(response.StatusCode, content);
+                    return KeyPhraseResult.Build(this._errorMessageGenerator.GenerateError(response.StatusCode, content));
                 }
             }
 
             var result = JsonConvert.DeserializeObject<AzureKeyPhraseResult>(content);
             return KeyPhraseResult.Build(result.KeyPhrases);
+        }
+
+        public async Task<IDictionary<string, KeyPhraseResult>> GetBatchKeyPhrasesAsync(Dictionary<string, string> textBatch)
+        {
+            this.ValidateBatchRequest(textBatch);
+
+            if (!textBatch.Any())
+            {
+                return new Dictionary<string, KeyPhraseResult>();
+            }
+
+            string content;
+            using (var response = await this._requestor.PostAsync(Constants.KeyPhraseBatchRequest, BuildInputString(textBatch)))
+            {
+                content = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    return textBatch.ToDictionary(r => r.Key, r => KeyPhraseResult.Build(this._errorMessageGenerator.GenerateError(response.StatusCode, content)));
+                }
+            }
+
+            var result = JsonConvert.DeserializeObject<AzureKeyPhrasesBatchResult>(content);
+
+            var parsedResults = result.KeyPhrasesBatch.ToDictionary(sr => sr.Id, sr => KeyPhraseResult.Build(sr.KeyPhrases));
+
+            foreach (var error in result.Errors)
+            {
+                parsedResults.Add(error.Id, KeyPhraseResult.Build(error.Message));
+            }
+
+            return parsedResults;
+        }
+
+        private void ValidateBatchRequest(Dictionary<string, string> textBatch)
+        {
+            if (textBatch == null)
+            {
+                throw new ArgumentNullException(nameof(textBatch));
+            }
+
+            if (textBatch.Count > this._settings.GetBatchLimit())
+            {
+                throw new InvalidOperationException(Constants.BatchLimitExceededErrorText);
+            }
         }
 
         private static string BuildInputString(IDictionary<string, string> textBatch)

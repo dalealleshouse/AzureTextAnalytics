@@ -11,6 +11,7 @@
             Sentiment().Wait();
             KeyPhrases().Wait();
             SentimentBatch().Wait();
+            KeyPhrasesBatch().Wait();
         }
 
         private static async Task Sentiment()
@@ -18,8 +19,7 @@
             var service = ServiceFactory.Build();
 
             var sentiment = await service.GetSentimentAsync("This is some awesome text that needs sentiment analysis;");
-            Console.WriteLine(
-                sentiment.Success ? $"The sentiment score is {sentiment.Score}" : $"Error: Http Status: {sentiment.StatusCode}, Contents: {sentiment.Error}");
+            Console.WriteLine(sentiment.Success ? $"The sentiment score is {sentiment.Score}" : sentiment.Error);
         }
 
         private static async Task SentimentBatch()
@@ -38,7 +38,7 @@
 
             foreach (var result in batchResult)
             {
-                Console.WriteLine(result.Value.Success ? $"Id: {result.Key} = {result.Value.Score}" : $"Error: Id: {result.Key}, Contents: {result.Value.Error}");
+                Console.WriteLine(result.Value.Success ? $"Id: {result.Key} = {result.Value.Score}" : $"Id: {result.Key} = Error: {result.Value.Error}");
             }
         }
 
@@ -47,10 +47,28 @@
             var service = ServiceFactory.Build();
 
             var phrases = await service.GetKeyPhrasesAsync("This is some awesome text that needs the key phrases extracted from.");
-            Console.WriteLine(
-                phrases.Success
-                    ? $"The key phrases are: {string.Join(",", phrases.Phrases)}"
-                    : $"Error: Http Status: {phrases.StatusCode}, Contents: {phrases.Error}");
+            Console.WriteLine(phrases.Success ? $"The key phrases are: {string.Join(",", phrases.Phrases)}" : phrases.Error);
+        }
+
+        private static async Task KeyPhrasesBatch()
+        {
+            var service = ServiceFactory.Build();
+
+            var request = new Dictionary<string, string>
+                              {
+                                  { "1", "This is very positive text because I love this service" },
+                                  { "2", "Test is very bad because I hate this service" },
+                                  { "3", "The service was OK, nothing special, I've had better" },
+                                  { "4", "" }
+                              };
+
+            var batchResult = await service.GetBatchKeyPhrasesAsync(request);
+
+            foreach (var result in batchResult)
+            {
+                Console.WriteLine(
+                    result.Value.Success ? $"Id: {result.Key} = {string.Join(",", result.Value.Phrases)}" : $"Id: {result.Key} = Error: {result.Value.Error}");
+            }
         }
     }
 }
