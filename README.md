@@ -35,6 +35,30 @@ Console.WriteLine(
         : $"Error: Http Status: {sentiment.StatusCode}, Contents: {sentiment.Error}");
 ```
 
+Batch request
+
+```csharp
+var service = ServiceFactory.Build();
+
+var request = new Dictionary<string, string>
+                    {
+                        { "1", "This is very positive text because I love this service" },
+                        { "2", "Test is very bad because I hate this service" },
+                        { "3", "The service was OK, nothing special, I've had better" },
+                        { "4", "" }
+                    };
+
+var batchResult = await service.GetBatchSentimentAsync(request);
+
+foreach (var result in batchResult)
+{
+    Console.WriteLine(
+        result.Value.Success 
+            ? $"Id: {result.Key} = {result.Value.Score}" 
+            : $"Error: Id: {result.Key}, Contents: {result.Value.Error}");
+}
+```
+
 Extract Key Phrases
 ===================
 The service returns a a collection of key phrases.
