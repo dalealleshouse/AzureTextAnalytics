@@ -13,7 +13,7 @@ First, you need to install the package via NuGet:
 PM> Install-Package AzureTextAnalytics
 ```
 
-Next, create a configration setting with your Account Key. You can obtain an Account Key here: [https://datamarket.azure.com/dataset/amla/text-analytics](https://datamarket.azure.com/dataset/amla/text-analytics)
+Next, create a configuration setting with your Account Key. You can obtain an Account Key here: [https://datamarket.azure.com/dataset/amla/text-analytics](https://datamarket.azure.com/dataset/amla/text-analytics)
 
 ```xml
 <appSettings>
