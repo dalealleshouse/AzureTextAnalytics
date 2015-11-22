@@ -50,9 +50,7 @@
         private HttpClient BuildClient()
         {
             var client = new HttpClient { BaseAddress = this._settings.GetServiceBaseUri() };
-
-            client.DefaultRequestHeaders.Add(Constants.AuthorizationHeaderName, this._headerFactory.AuthorizationHeader());
-            client.DefaultRequestHeaders.Accept.Add(this._headerFactory.AcceptHeader());
+            this._headerFactory.SetHeaders(client.DefaultRequestHeaders);
 
             return client;
         }

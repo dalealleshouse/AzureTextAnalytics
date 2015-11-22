@@ -20,15 +20,19 @@
             this._settings = settings;
         }
 
-        public string AuthorizationHeader()
+        // I would have prefered to return a list of headers instead of relying on a side effect,
+        // but I was having problems getting the accept header to work properly. If anyone has any
+        // refactoring ideas, I'm listening...
+        public void SetHeaders(HttpRequestHeaders headers)
+        {
+            headers.Add(Constants.AuthorizationHeaderName, this.AuthorizationHeader());
+            headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
+        private string AuthorizationHeader()
         {
             var cred = "AccountKey:" + this._settings.GetApiKey();
             return "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(cred));
-        }
-
-        public MediaTypeWithQualityHeaderValue AcceptHeader()
-        {
-            return new MediaTypeWithQualityHeaderValue("application/json");
         }
     }
 }

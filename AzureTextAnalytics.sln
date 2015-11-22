@@ -24,23 +24,32 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Nuget|Any CPU = Nuget|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3A9700C9-F92F-4155-9688-2A88A23BF0F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3A9700C9-F92F-4155-9688-2A88A23BF0F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A9700C9-F92F-4155-9688-2A88A23BF0F6}.Nuget|Any CPU.ActiveCfg = Nuget|Any CPU
+		{3A9700C9-F92F-4155-9688-2A88A23BF0F6}.Nuget|Any CPU.Build.0 = Nuget|Any CPU
 		{3A9700C9-F92F-4155-9688-2A88A23BF0F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A9700C9-F92F-4155-9688-2A88A23BF0F6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F95A5BC3-9D43-4799-83FB-BFFE07F2B4E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F95A5BC3-9D43-4799-83FB-BFFE07F2B4E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F95A5BC3-9D43-4799-83FB-BFFE07F2B4E3}.Nuget|Any CPU.ActiveCfg = Nuget|Any CPU
+		{F95A5BC3-9D43-4799-83FB-BFFE07F2B4E3}.Nuget|Any CPU.Build.0 = Nuget|Any CPU
 		{F95A5BC3-9D43-4799-83FB-BFFE07F2B4E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F95A5BC3-9D43-4799-83FB-BFFE07F2B4E3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D6395CE5-BC2B-4292-AE5D-BB67431F1385}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D6395CE5-BC2B-4292-AE5D-BB67431F1385}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6395CE5-BC2B-4292-AE5D-BB67431F1385}.Nuget|Any CPU.ActiveCfg = Nuget|Any CPU
+		{D6395CE5-BC2B-4292-AE5D-BB67431F1385}.Nuget|Any CPU.Build.0 = Nuget|Any CPU
 		{D6395CE5-BC2B-4292-AE5D-BB67431F1385}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6395CE5-BC2B-4292-AE5D-BB67431F1385}.Release|Any CPU.Build.0 = Release|Any CPU
 		{97BF560C-0533-4D94-ACBF-82A59EB64856}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{97BF560C-0533-4D94-ACBF-82A59EB64856}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97BF560C-0533-4D94-ACBF-82A59EB64856}.Nuget|Any CPU.ActiveCfg = Nuget|Any CPU
+		{97BF560C-0533-4D94-ACBF-82A59EB64856}.Nuget|Any CPU.Build.0 = Nuget|Any CPU
 		{97BF560C-0533-4D94-ACBF-82A59EB64856}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97BF560C-0533-4D94-ACBF-82A59EB64856}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

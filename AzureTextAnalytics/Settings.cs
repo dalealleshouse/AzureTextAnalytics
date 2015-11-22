@@ -31,7 +31,7 @@
             }
             catch (UriFormatException)
             {
-                throw new UriFormatException($"Unable to parse the {Constants.DefaultServiceBaseUri} setting into a valid URI");
+                throw new UriFormatException($"Unable to parse the {Constants.ServiceBaseUriConfigKey} setting into a valid URI");
             }
         }
 

@@ -4,8 +4,6 @@
 
     public interface IRequestHeaderFactory
     {
-        string AuthorizationHeader();
-
-        MediaTypeWithQualityHeaderValue AcceptHeader();
+        void SetHeaders(HttpRequestHeaders headers);
     }
 }
